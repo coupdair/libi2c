@@ -38,7 +38,7 @@ int i2c_open(const char *bus_name)
     }
 
     return fd;
-}
+}//i2c_open
 
 
 void i2c_close(int bus)
@@ -64,7 +64,7 @@ void i2c_init_device(I2CDevice *device)
 
     /* 1 byte internal(word) address */
     device->iaddr_bytes = 1;
-}
+}//i2c_init_device
 
 
 /*
@@ -81,7 +81,7 @@ char *i2c_get_device_desc(const I2CDevice *device, char *buf, size_t size)
              device->addr, device->tenbit ? "True" : "False", device->iaddr_bytes, device->page_bytes, device->delay);
 
     return buf;
-}
+}//i2c_get_device_desc
 
 
 /*
@@ -147,7 +147,7 @@ ssize_t i2c_ioctl_read(const I2CDevice *device, unsigned int iaddr, void *buf, s
     }
 
     return len;
-}
+}//i2c_ioctl_read
 
 
 ssize_t i2c_ioctl_write(const I2CDevice *device, unsigned int iaddr, const void *buf, size_t len)
@@ -201,7 +201,7 @@ ssize_t i2c_ioctl_write(const I2CDevice *device, unsigned int iaddr, const void 
     }
 
     return cnt;
-}
+}//i2c_ioctl_write
 
 
 /*
@@ -246,7 +246,7 @@ ssize_t i2c_read(const I2CDevice *device, unsigned int iaddr, void *buf, size_t 
     }
 
     return cnt;
-}
+}//i2c_read
 
 
 /*
@@ -304,7 +304,7 @@ ssize_t i2c_write(const I2CDevice *device, unsigned int iaddr, const void *buf, 
     }
 
     return cnt;
-}
+}//i2c_write
 
 
 /*
@@ -331,7 +331,7 @@ void i2c_iaddr_convert(unsigned int iaddr, unsigned int len, unsigned char *addr
 
         addr[i--] = convert.caddr[j--];
     }
-}
+}//i2c_iaddr_convert
 
 
 /*
@@ -358,7 +358,7 @@ int i2c_select(int bus, unsigned long dev_addr, unsigned long tenbit)
     }
 
     return 0;
-}
+}//i2c_select
 
 /*
 **	@brief	:	i2c delay

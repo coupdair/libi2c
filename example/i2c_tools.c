@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     I2C_READ_HANDLE i2c_read_handle = i2c_read;
     I2C_WRITE_HANDLE i2c_write_handle = i2c_write;
     unsigned int addr = 0, iaddr_bytes = 0, page_bytes = 0, bus_num = -1;
-
+///Usage
     if (argc < 5) {
 
         fprintf(stdout, "Usage:%s <bus_num> <dev_addr> <iaddr_bytes> <page_bytes> [ioctl]\n"
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
                 "\t24c64 i2c_test 1 0x50 2 ioctl\n", argv[0]);
         exit(0);
     }
-
+///CLI option parsing
     /* Get i2c bus number */
     if (sscanf(argv[1], "%u", &bus_num) != 1) {
 
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
         fprintf(stderr, "Format i2c bus name error!\n");
         exit(-3);
     }
-
+///open bus, i.e. fd
     if ((bus = i2c_open(bus_name)) == -1) {
 
         fprintf(stderr, "Open i2c bus:%s error!\n", bus_name);
@@ -99,15 +99,18 @@ int main(int argc, char **argv)
     }
 
     /* Init i2c device */
+///setup device desc.
     I2CDevice device;
     memset(&device, 0, sizeof(device));
+    //default init.
     i2c_init_device(&device);
-
+    //specific init., e.g. from CLI
     device.bus = bus;
     device.addr = addr & 0x3ff;
     device.page_bytes = page_bytes;
     device.iaddr_bytes = iaddr_bytes;
 
+///show device desc.
     /* Print i2c device description */
     fprintf(stdout, "%s\n", i2c_get_device_desc(&device, i2c_dev_desc, sizeof(i2c_dev_desc)));
 
@@ -116,7 +119,7 @@ int main(int argc, char **argv)
     unsigned char buf[256];
     size_t buf_size = sizeof(buf);
     memset(buf, 0, buf_size);
-
+///fill data
     /* I/O r/w 0x00 - 0xff */
     if (i2c_read_handle == i2c_read) {
 
@@ -137,7 +140,7 @@ int main(int argc, char **argv)
     /* Print before write */
     fprintf(stdout, "Write data:\n");
     print_i2c_data(buf, buf_size);
-
+///write data
     ret = i2c_write_handle(&device, 0x0, buf, buf_size);
     if (ret != -1 || (size_t)ret != buf_size)
     {
@@ -152,6 +155,7 @@ int main(int argc, char **argv)
     usleep(100000);
     memset(buf, 0, buf_size);
 
+///read data
     ret = i2c_read_handle(&device, 0x0, buf, buf_size);
     if (ret == -1 || (size_t)ret != buf_size)
     {
@@ -166,6 +170,4 @@ int main(int argc, char **argv)
 
     i2c_close(bus);
     return 0;
-}
-
-
+}//main
