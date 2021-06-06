@@ -17,7 +17,7 @@ do
   #remove flag bits
   ubc=`$bit -s 8 -x $ub --and -X 0x1F | tail -n 1`
   #echo 'UpperByte: '$ub' -> '$ubc
-  t=`units "($ubc*16)+($lb/16)" " " -t`
+  t=`units "($ubc*16)+($lb/16)" " " -t -o %06.3f`
   echo $t" °C"
 done
 
