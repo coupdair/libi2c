@@ -1,8 +1,10 @@
 # install
 
+~~~ { .bash }
 make
 make example
 ls *.so objs/
+~~~
 
 # use
 
@@ -31,7 +33,7 @@ Such as:
 LD_LIBRARY_PATH=./ ./objs/i2c_get
 Usage:./objs/i2c_get <bus_num> <dev_addr> <iaddr_bytes> <page_bytes> [ioctl]
 Such as:
-./objs/i2c_get 1 0x18 0x05 16
+./objs/i2c_get 1 0x18 0x05 2
 ~~~
 
 ### read HRT
