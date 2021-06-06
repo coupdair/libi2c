@@ -116,47 +116,14 @@ int main(int argc, char **argv)
 
     size_t i = 0;
     ssize_t ret = 0;
-    unsigned char buf[256];
+    unsigned char buf[2];
     size_t buf_size = sizeof(buf);
-    memset(buf, 0, buf_size);
-///fill data
-    /* I/O r/w 0x00 - 0xff */
-    if (i2c_read_handle == i2c_read) {
-
-        for (i = 0; i < buf_size; i++) {
-
-            buf[i] = i;
-        }
-    }
-    /* ioctl r/w 0xff - 0x0 */
-    else {
-
-        for (i = 0; i < buf_size; i++) {
-
-            buf[i] = 0xff - i;
-        }
-    }
-
-    /* Print before write */
-    fprintf(stdout, "Write data:\n");
-    print_i2c_data(buf, buf_size);
-///write data
-    ret = i2c_write_handle(&device, 0x0, buf, buf_size);
-    if (ret != -1 || (size_t)ret != buf_size)
-    {
-
-        fprintf(stderr, "Write i2c error!\n");
-        exit(-4);
-    }
-
-    fprintf(stdout, "\nWrite success, prepare read....\n");
 
     /* Read */
-    usleep(100000);
     memset(buf, 0, buf_size);
 
 ///read data
-    ret = i2c_read_handle(&device, 0x0, buf, buf_size);
+    ret = i2c_read_handle(&device, 0x5, buf, buf_size);
     if (ret == -1 || (size_t)ret != buf_size)
     {
 
