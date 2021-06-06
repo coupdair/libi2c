@@ -26,13 +26,13 @@ int main(int argc, char **argv)
 {
     char i2c_dev_desc[128];
     I2C_READ_HANDLE i2c_read_handle = i2c_read;
-    unsigned int addr=0, iaddr=0, iaddr_bytes = 1, page_bytes = 0, bus_num = -1;
+    unsigned int addr=0, iaddr=0, num_bytes=0, iaddr_bytes = 1, page_bytes = 16, bus_num = -1;
 ///Usage
     if (argc < 5) {
 
-        fprintf(stdout, "Usage:%s <bus_num> <dev_addr> <iaddr_bytes> <page_bytes> [ioctl]\n"
+        fprintf(stdout, "Usage:%s <bus_num> <dev_addr> <iaddr> <num_bytes> [ioctl]\n"
                 "Such as:\n"
-                "%s 1 0x18 0x05 16\n", argv[0], argv[0]); //,argv[0],argv[0],argv[0]);
+                "%s 1 0x18 0x05 2\n", argv[0], argv[0]); //,argv[0],argv[0],argv[0]);
         exit(0);
     }
 ///CLI option parsing
@@ -57,13 +57,12 @@ int main(int argc, char **argv)
         exit(-2);
     }
 
-    /* Get i2c page bytes number */
-    if (sscanf(argv[4], "%u", &page_bytes) != 1) {
+    /* Get i2c number of bytes */
+    if (sscanf(argv[4], "%u", &num_bytes) != 1) {
 
-        fprintf(stderr, "Can't parse i2c 'page_bytes' [%s]\n", argv[4]);
+        fprintf(stderr, "Can't parse i2c 'num_bytes' [%s]\n", argv[4]);
         exit(-2);
     }
-
 
     /* If specify ioctl using ioctl r/w i2c */
     if (argc == 6 && (memcmp(argv[5], "ioctl", strlen("ioctl")) == 0)) {
@@ -109,17 +108,18 @@ int main(int argc, char **argv)
     /* Print i2c device description */
     fprintf(stdout, "%s\n", i2c_get_device_desc(&device, i2c_dev_desc, sizeof(i2c_dev_desc)));
     fprintf(stdout, "internal register address=0x%02x\n", iaddr);
+    fprintf(stdout, "reading %d bytes\n", num_bytes);
 
     ssize_t ret = 0;
-    unsigned char buf[2];
+    unsigned char buf[16];
     size_t buf_size = sizeof(buf);
 
     /* Read */
     memset(buf, 0, buf_size);
 
 ///read data
-    ret = i2c_read_handle(&device, iaddr, buf, buf_size);
-    if (ret == -1 || (size_t)ret != buf_size)
+    ret = i2c_read_handle(&device, iaddr, buf, num_bytes);
+    if (ret == -1 || (size_t)ret != num_bytes)
     {
 
         fprintf(stderr, "Read i2c error!\n");
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 
     /* Print read result */
     fprintf(stdout, "Read data:\n");
-    print_i2c_data(buf, buf_size);
+    print_i2c_data(buf, num_bytes);
 
     i2c_close(bus);
     return 0;

@@ -37,7 +37,7 @@ Such as:
 ### read HRT
 
 ~~~ { .bash }
-LD_LIBRARY_PATH=./ ./objs/i2c_get 1 0x18 0x05 16
+LD_LIBRARY_PATH=./ ./objs/i2c_get 1 0x18 0x05 2
 
 Using i2c_oper r/w data
 Device address: 0x18, tenbit: False, internal(word) address: 1 bytes, page max 16 bytes, delay: 1ms
