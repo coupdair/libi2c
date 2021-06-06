@@ -26,16 +26,13 @@ int main(int argc, char **argv)
 {
     char i2c_dev_desc[128];
     I2C_READ_HANDLE i2c_read_handle = i2c_read;
-    unsigned int addr=0, iaddr=0x05, iaddr_bytes = 0, page_bytes = 0, bus_num = -1;
+    unsigned int addr=0, iaddr=0, iaddr_bytes = 1, page_bytes = 0, bus_num = -1;
 ///Usage
     if (argc < 5) {
 
         fprintf(stdout, "Usage:%s <bus_num> <dev_addr> <iaddr_bytes> <page_bytes> [ioctl]\n"
                 "Such as:\n"
-                "%s 1 0x50 1 8\n"
-                "%s 1 0x50 1 16\n"
-                "%s 1 0x50 2 32\n"
-                "%s 1 0x50 2 ioctl\n", argv[0], argv[0],argv[0],argv[0],argv[0]);
+                "%s 1 0x18 0x05 16\n", argv[0], argv[0]); //,argv[0],argv[0],argv[0]);
         exit(0);
     }
 ///CLI option parsing
@@ -54,9 +51,9 @@ int main(int argc, char **argv)
     }
 
     /* Get i2c internal address bytes */
-    if (sscanf(argv[3], "%u", &iaddr_bytes) != 1) {
+    if (sscanf(argv[3], "0x%x", &iaddr) != 1) {
 
-        fprintf(stderr, "Can't parse i2c 'iaddr_bytes' [%s]\n", argv[3]);
+        fprintf(stderr, "Can't parse i2c 'iaddr' [%s]\n", argv[3]);
         exit(-2);
     }
 
@@ -111,6 +108,7 @@ int main(int argc, char **argv)
 ///show device desc.
     /* Print i2c device description */
     fprintf(stdout, "%s\n", i2c_get_device_desc(&device, i2c_dev_desc, sizeof(i2c_dev_desc)));
+    fprintf(stdout, "internal register address=0x%02x\n", iaddr);
 
     ssize_t ret = 0;
     unsigned char buf[2];
