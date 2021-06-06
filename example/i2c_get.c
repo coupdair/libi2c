@@ -26,7 +26,8 @@ int main(int argc, char **argv)
 {
     char i2c_dev_desc[128];
     I2C_READ_HANDLE i2c_read_handle = i2c_read;
-    unsigned int addr = 0, iaddr = 0x05, page_bits = 8, bus_num = -1;
+    I2C_WRITE_HANDLE i2c_write_handle = i2c_write;
+    unsigned int addr = 0, iaddr_bytes = 0, page_bytes = 0, bus_num = -1;
 ///Usage
     if (argc < 5) {
 
@@ -53,17 +54,17 @@ int main(int argc, char **argv)
         exit(-1);
     }
 
-    /* Get i2c internal address*/
-    if (sscanf(argv[3], "%u", &iaddr) != 1) {
+    /* Get i2c internal address bytes */
+    if (sscanf(argv[3], "%u", &iaddr_bytes) != 1) {
 
-        fprintf(stderr, "Can't parse i2c 'iaddr' [%s]\n", argv[3]);
+        fprintf(stderr, "Can't parse i2c 'iaddr_bytes' [%s]\n", argv[3]);
         exit(-2);
     }
 
     /* Get i2c page bytes number */
-    if (sscanf(argv[4], "%u", &page_bits) != 1) {
+    if (sscanf(argv[4], "%u", &page_bytes) != 1) {
 
-        fprintf(stderr, "Can't parse i2c 'page_bits' [%s]\n", argv[4]);
+        fprintf(stderr, "Can't parse i2c 'page_bytes' [%s]\n", argv[4]);
         exit(-2);
     }
 
@@ -105,8 +106,8 @@ int main(int argc, char **argv)
     //specific init., e.g. from CLI
     device.bus = bus;
     device.addr = addr & 0x3ff;
-    device.page_bytes = 16;//page_bytes;
-    device.iaddr_bytes = 1;//iaddr_bytes;
+    device.page_bytes = page_bytes;
+    device.iaddr_bytes = iaddr_bytes;
 
 ///show device desc.
     /* Print i2c device description */
@@ -121,7 +122,7 @@ int main(int argc, char **argv)
     memset(buf, 0, buf_size);
 
 ///read data
-    ret = i2c_read_handle(&device, iaddr, buf, buf_size);
+    ret = i2c_read_handle(&device, 0x5, buf, buf_size);
     if (ret == -1 || (size_t)ret != buf_size)
     {
 
