@@ -26,8 +26,7 @@ int main(int argc, char **argv)
 {
     char i2c_dev_desc[128];
     I2C_READ_HANDLE i2c_read_handle = i2c_read;
-    I2C_WRITE_HANDLE i2c_write_handle = i2c_write;
-    unsigned int addr = 0, iaddr_bytes = 0, page_bytes = 0, bus_num = -1;
+    unsigned int addr=0, iaddr=0x05, iaddr_bytes = 0, page_bytes = 0, bus_num = -1;
 ///Usage
     if (argc < 5) {
 
@@ -113,7 +112,6 @@ int main(int argc, char **argv)
     /* Print i2c device description */
     fprintf(stdout, "%s\n", i2c_get_device_desc(&device, i2c_dev_desc, sizeof(i2c_dev_desc)));
 
-    size_t i = 0;
     ssize_t ret = 0;
     unsigned char buf[2];
     size_t buf_size = sizeof(buf);
@@ -122,7 +120,7 @@ int main(int argc, char **argv)
     memset(buf, 0, buf_size);
 
 ///read data
-    ret = i2c_read_handle(&device, 0x5, buf, buf_size);
+    ret = i2c_read_handle(&device, iaddr, buf, buf_size);
     if (ret == -1 || (size_t)ret != buf_size)
     {
 
