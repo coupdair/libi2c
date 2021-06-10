@@ -52,6 +52,14 @@ c1 89
 #e.g. units "(0x1*16)+(0x89/16)" " " -t
 ~~~
 
+equivalent to
+
+~~~ { .bash }
+i2cget -y 1 0x18 0x05 w
+
+0x91c1
+~~~
+
 ### read many HRT devices
 
 ~~~ { .bash }
@@ -119,6 +127,14 @@ reading 2 bytes
 Read data:
 
 04 00 
+~~~
+
+equivalent to
+
+~~~ { .bash }
+i2cget -y 1 0x18 0x07 w
+
+0x0004
 ~~~
 
 ## i2c_get_temperature
