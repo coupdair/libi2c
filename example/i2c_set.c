@@ -118,16 +118,16 @@ int main(int argc, char **argv)
     size_t buf_size = sizeof(buf);
     memset(buf, 0, buf_size);
 ///fill data
-    buf[0] = 0x1;
+    buf[0] = 0x0;
     int num_bytes=1;
     /* Print before write */
     fprintf(stdout, "Write data:\n");
     print_i2c_data(buf, num_bytes);
 ///write data
     ret = i2c_write_handle(&device, 0x08, buf, num_bytes);
-    if (ret != -1 || (size_t)ret != num_bytes)
+    //if(ret==-1)
+    if((size_t)ret != num_bytes)
     {
-
         fprintf(stderr, "Write i2c error!\n");
         exit(-4);
     }
