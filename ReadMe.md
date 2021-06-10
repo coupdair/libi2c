@@ -101,3 +101,12 @@ done
 25.375 °C
 25.3125 °C
 ~~~
+
+## i2c_get_temperature
+
+i2c_get_temperature on MCP9808
+
+~~~ { .bash }
+LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18 0x05 2
+~~~
+
