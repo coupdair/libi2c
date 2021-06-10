@@ -166,3 +166,35 @@ Read temperature: 25.438 Celcius
 Read temperature: 25.375 Celcius
 ~~~
 
+## misc.
+
+set resolution on HRT devices
+
+~~~ { .bash }
+#low  temp. resolution, i.e. 0.5°C
+res=0x0
+
+for i in 18 19 1a 1b 1c 1d; do LD_LIBRARY_PATH=./ ./objs/i2c_get_temperature 1 0x$i | grep Celcius; done
+
+Read temperature: 25.188 Celcius
+Read temperature: 25.125 Celcius
+Read temperature: 25.438 Celcius
+Read temperature: 25.688 Celcius
+Read temperature: 25.812 Celcius
+Read temperature: 25.812 Celcius
+
+for i in 18 19 1a 1b 1c 1d; do i2cset -y 1 0x$i 0x08 $res; done; sleep 1
+
+for i in 18 19 1a 1b 1c 1d; do LD_LIBRARY_PATH=./ ./objs/i2c_get_temperature 1 0x$i | grep Celcius; done
+
+Read temperature: 25.500 Celcius
+Read temperature: 25.000 Celcius
+Read temperature: 25.000 Celcius
+Read temperature: 25.500 Celcius
+Read temperature: 26.000 Celcius
+Read temperature: 25.500 Celcius
+
+#high temp. resolution, i.e. 0.0625°C
+res=0x3
+for i in 18 19 1a 1b 1c 1d; do i2cset -y 1 0x$i 0x08 $res; done; sleep 1
+~~~
