@@ -33,6 +33,9 @@ i2c_get: i2c_get.o
 i2c_get_temperature: i2c_get_temperature.o
 	$(CC) $(CFLAGS) -o $(OBJDIR)/$@ $^ $(LDFLAGS)
 
+i2c_set: i2c_set.o
+	$(CC) $(CFLAGS) -o $(OBJDIR)/$@ $^ $(LDFLAGS)
+
 depend:$(wildcard *.h *.c)
 	$(CC) $(CFLAGS) -MM $^ > $@
 

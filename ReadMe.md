@@ -198,3 +198,13 @@ Read temperature: 25.500 Celcius
 res=0x3
 for i in 18 19 1a 1b 1c 1d; do i2cset -y 1 0x$i 0x08 $res; done; sleep 1
 ~~~
+
+# i2c_set
+
+- i2c_set <=> i2cset
+
+~~~ { .bash }
+i2cset -y 1 0x18 0x08 0x3; sleep 1; LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18  | grep Celcius; i2cset -y 1 0x18 0x08 0x0; sleep 1;  LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18 | grep Celcius; 
+Read temperature: 25.250 Celcius
+Read temperature: 25.500 Celcius
+~~~
