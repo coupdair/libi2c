@@ -102,6 +102,25 @@ done
 25.3125 °C
 ~~~
 
+### read HRT dev. id and rev.
+
+reg.0x07:
+
+- dev. id =  0x04 (ub)
+- rev., e.g. 0x00 (lb)
+
+~~~ { .bash }
+LD_LIBRARY_PATH=./ ./objs/i2c_get 1 0x18 0x07 2
+
+Using i2c_oper r/w data
+Device address: 0x18, tenbit: False, internal(word) address: 1 bytes, page max 16 bytes, delay: 1ms
+internal register address=0x07
+reading 2 bytes
+Read data:
+
+04 00 
+~~~
+
 ## i2c_get_temperature
 
 i2c_get_temperature on MCP9808
