@@ -106,7 +106,28 @@ done
 
 i2c_get_temperature on MCP9808
 
+### read single HRT device
+
 ~~~ { .bash }
-LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18
+LD_LIBRARY_PATH=./ ./objs/i2c_get_temperature 1 0x18
+
+Device address: 0x18, tenbit: False, internal(word) address: 1 bytes, page max 8 bytes, delay: 1ms
+internal register address=0x05
+reading 2 bytes
+Read data: 0xc1 0x90
+Read temperature: 25.000 Celcius
+~~~
+
+### read many HRT devices
+
+~~~ { .bash }
+for i in 18 19 1a 1b 1c 1d; do LD_LIBRARY_PATH=./ ./objs/i2c_get_temperature 1 0x$i | grep Celcius; done
+
+Read temperature: 25.000 Celcius
+Read temperature: 24.938 Celcius
+Read temperature: 25.125 Celcius
+Read temperature: 25.375 Celcius
+Read temperature: 25.438 Celcius
+Read temperature: 25.375 Celcius
 ~~~
 
