@@ -26,13 +26,13 @@ int main(int argc, char **argv)
 {
     char i2c_dev_desc[128];
     I2C_READ_HANDLE i2c_read_handle = i2c_read;
-    unsigned int addr=0, iaddr=0, num_bytes=0, iaddr_bytes = 1, page_bytes = 16, bus_num = -1;
+    unsigned int addr=0, iaddr=0x05, num_bytes=2, iaddr_bytes = 1, page_bytes = 16, bus_num = -1;
 ///Usage
-    if (argc < 5) {
+    if (argc < 3) {
 
-        fprintf(stdout, "Usage:%s <bus_num> <dev_addr> <iaddr> <num_bytes> [ioctl]\n"
+        fprintf(stdout, "Usage:%s <bus_num> <dev_addr>\n"
                 "Such as:\n"
-                "%s 1 0x18 0x05 2\n", argv[0], argv[0]); //,argv[0],argv[0],argv[0]);
+                "%s 1 0x18\n", argv[0], argv[0]);
         exit(0);
     }
 ///CLI option parsing
@@ -48,31 +48,6 @@ int main(int argc, char **argv)
 
         fprintf(stderr, "Can't parse i2c 'dev_addr' [%s]\n", argv[2]);
         exit(-1);
-    }
-
-    /* Get i2c internal address bytes */
-    if (sscanf(argv[3], "0x%x", &iaddr) != 1) {
-
-        fprintf(stderr, "Can't parse i2c 'iaddr' [%s]\n", argv[3]);
-        exit(-2);
-    }
-
-    /* Get i2c number of bytes */
-    if (sscanf(argv[4], "%u", &num_bytes) != 1) {
-
-        fprintf(stderr, "Can't parse i2c 'num_bytes' [%s]\n", argv[4]);
-        exit(-2);
-    }
-
-    /* If specify ioctl using ioctl r/w i2c */
-    if (argc == 6 && (memcmp(argv[5], "ioctl", strlen("ioctl")) == 0)) {
-
-        i2c_read_handle = i2c_ioctl_read;
-        fprintf(stdout, "Using i2c_ioctl_oper r/w data\n");
-    }
-    else {
-
-        fprintf(stdout, "Using i2c_oper r/w data\n");
     }
 
     /* Open i2c bus */
