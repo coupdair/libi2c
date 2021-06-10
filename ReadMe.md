@@ -210,15 +210,17 @@ Read temperature: 25.500 Celcius
 ~~~
 
 ~~~ { .bash }
-make i2c_set; LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18  | grep Celcius;  LD_LIBRARY_PATH=../ ../objs/i2c_set 1 0x18 1 1; sleep 1; LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18  | grep Celcius; i2cset -y 1 0x18 0x08 0x3; sleep 1;  LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18 | grep Celcius;
-
+make i2c_set && LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18  | grep Celcius;  LD_LIBRARY_PATH=../ ../objs/i2c_set 1 0x18 0x08 0x0; sleep 1; LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18  | grep Celcius; LD_LIBRARY_PATH=../ ../objs/i2c_set 1 0x18 0x08 0x3; sleep 1;  LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18 | grep Celcius; 
 gcc -Wall -g -I../include -o ../objs/i2c_set i2c_set.o -L.. -li2c -Wl,-R -Wl,..
-Read temperature: 25.312 Celcius
-Using i2c_oper r/w data
-Device address: 0x18, tenbit: False, internal(word) address: 1 bytes, page max 1 bytes, delay: 1ms
+Read temperature: 25.375 Celcius
+Device address: 0x18, tenbit: False, internal(word) address: 1 bytes, page max 8 bytes, delay: 1ms
 Write data:
 
 00 
 Read temperature: 25.000 Celcius
-Read temperature: 25.312 Celcius
+Device address: 0x18, tenbit: False, internal(word) address: 1 bytes, page max 8 bytes, delay: 1ms
+Write data:
+
+03 
+Read temperature: 25.375 Celcius
 ~~~

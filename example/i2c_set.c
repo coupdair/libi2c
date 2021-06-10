@@ -26,13 +26,14 @@ int main(int argc, char **argv)
 {
     char i2c_dev_desc[128];
     I2C_WRITE_HANDLE i2c_write_handle = i2c_write;
-    unsigned int addr = 0, iaddr=0x05, num_bytes=1, bus_num = -1;
+    unsigned int addr = 0, iaddr=0, num_bytes=1, bus_num = -1;
+    unsigned int value=0;
 ///Usage
-    if (argc < 3) {
+    if (argc < 5) {
 
         fprintf(stdout, "Usage:%s <bus_num> <dev_addr> <value>\n"
                 "Such as:\n"
-                "%s 1 0x18 0x3\n", argv[0], argv[0]);
+                "%s 1 0x18 0x08 0x3\n", argv[0], argv[0]);
         exit(0);
     }
 ///CLI option parsing
@@ -49,14 +50,20 @@ int main(int argc, char **argv)
         fprintf(stderr, "Can't parse i2c 'dev_addr' [%s]\n", argv[2]);
         exit(-1);
     }
-/*
-    /* Get i2c internal address bytes * /
-    if (sscanf(argv[3], "%u", &iaddr_bytes) != 1) {
+    
+    /* Get i2c internal address bytes */
+    if (sscanf(argv[3], "0x%x", &iaddr) != 1) {
 
-        fprintf(stderr, "Can't parse i2c 'iaddr_bytes' [%s]\n", argv[3]);
+        fprintf(stderr, "Can't parse i2c 'iaddr' [%s]\n", argv[3]);
         exit(-2);
     }
-*/
+
+    /* Get i2c number of bytes */
+    if (sscanf(argv[4], "%x", &value) != 1) {
+
+        fprintf(stderr, "Can't parse i2c 'value' [%s]\n", argv[4]);
+        exit(-2);
+    }
     /* Open i2c bus */
     int bus;
     char bus_name[32];
@@ -94,12 +101,12 @@ int main(int argc, char **argv)
     size_t buf_size = sizeof(buf);
     memset(buf, 0, buf_size);
 ///fill data
-    buf[0] = 0x0;
+    buf[0]=value;
     /* Print before write */
     fprintf(stdout, "Write data:\n");
     print_i2c_data(buf, num_bytes);
 ///write data
-    ret = i2c_write_handle(&device, 0x08, buf, num_bytes);
+    ret = i2c_write_handle(&device, iaddr, buf, num_bytes);
     //if(ret==-1)
     if((size_t)ret != num_bytes)
     {
