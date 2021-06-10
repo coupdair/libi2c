@@ -107,6 +107,6 @@ done
 i2c_get_temperature on MCP9808
 
 ~~~ { .bash }
-LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18 0x05 2
+LD_LIBRARY_PATH=../ ../objs/i2c_get_temperature 1 0x18
 ~~~
 

@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 {
     char i2c_dev_desc[128];
     I2C_READ_HANDLE i2c_read_handle = i2c_read;
-    unsigned int addr=0, iaddr=0x05, num_bytes=2, iaddr_bytes = 1, page_bytes = 16, bus_num = -1;
+    unsigned int addr=0, iaddr=0x05, num_bytes=2, bus_num = -1;
 ///Usage
     if (argc < 3) {
 
@@ -76,8 +76,6 @@ int main(int argc, char **argv)
     //specific init., e.g. from CLI
     device.bus = bus;
     device.addr = addr & 0x3ff;
-    device.page_bytes = page_bytes;
-    device.iaddr_bytes = iaddr_bytes;
 
 ///show device desc.
     /* Print i2c device description */
