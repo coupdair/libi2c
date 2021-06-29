@@ -11,7 +11,8 @@ CODE_STYLE	= astyle --align-pointer=name --align-reference=name --suffix=none --
 SOURCES=$(filter-out src/pyi2c.c, $(wildcard src/*.c))
 HEADERS=$(wildcard $(INCDIR)/i2c/*.h)
 OBJECTS=$(SOURCES:.c=.o)
-TARGETS = libi2c.a libi2c.so pylibi2c.so
+#TARGETS = libi2c.a libi2c.so pylibi2c.so
+TARGETS = libi2c.a libi2c.so
 
 .PHONY:all clean example test install help style
 .SILENT: clean
